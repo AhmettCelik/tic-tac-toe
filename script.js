@@ -13,11 +13,10 @@ function GameBoard() {
   const getBoard = () => board;
 
   const placeMarker = (rowInput, columnInput, player) => {
-    const emptyGrids = board
-      .filter((row) => row[columnInput].getMarker() === "")
-      .map((row) => row[columnInput]);
-
-    if (!emptyGrids.length) return;
+    if (board[rowInput][columnInput].getMarker() != "") {
+      console.log("askdşlkgaşdg");
+      return;
+    }
 
     board[rowInput][columnInput].addMarker(player);
   };
@@ -80,10 +79,12 @@ function DisplayController() {
   };
 
   const playRound = (column, row) => {
+    //Check the place if it is empty or not
+    if (board.getBoard()[row][column].getMarker() != "") return;
     console.log(
       `Dropping ${
         getCurrentPlayer().name
-      }'s token into column ${column} and ${row}...`
+      }'s token into column ${column} and row ${row}...`
     );
 
     board.placeMarker(row, column, getCurrentPlayer());
@@ -101,3 +102,5 @@ function DisplayController() {
 }
 
 const game = DisplayController();
+
+game.playRound(2, 2);
