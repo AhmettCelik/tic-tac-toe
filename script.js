@@ -73,4 +73,31 @@ function DisplayController() {
   };
 
   const getCurrentPlayer = () => currentPlayer;
+
+  const printNewRound = () => {
+    board.printCurrentBoard();
+    console.log(`${getCurrentPlayer().name}'s turn!`);
+  };
+
+  const playRound = (column, row) => {
+    console.log(
+      `Dropping ${
+        getCurrentPlayer().name
+      }'s token into column ${column} and ${row}...`
+    );
+
+    board.placeMarker(row, column, getCurrentPlayer());
+
+    switchPlayer();
+    printNewRound();
+  };
+
+  printNewRound();
+
+  return {
+    playRound,
+    getCurrentPlayer,
+  };
 }
+
+const game = DisplayController();
