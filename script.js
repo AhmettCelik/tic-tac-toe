@@ -11,6 +11,22 @@ function GameBoard() {
   }
 }
 
+const player = (function (
+  playerOneName = "player one",
+  playerTwoName = "player two"
+) {
+  const players = [
+    {
+      name: playerOneName,
+      marker: "X",
+    },
+    {
+      name: playerTwoName,
+      marker: "O",
+    },
+  ];
+})();
+
 function Cell() {
   let marker = "";
 
