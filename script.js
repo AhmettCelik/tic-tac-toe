@@ -12,8 +12,19 @@ function GameBoard() {
 
   const getBoard = () => board;
 
+  const placeMarker = (rowInput, columnInput, player) => {
+    const emptyGrids = board
+      .filter((row) => row[columnInput].getMarker() === "")
+      .map((row) => row[columnInput]);
+
+    if (!emptyGrids.length) return;
+
+    board[rowInput][columnInput].addMarker(player);
+  };
+
   return {
     getBoard,
+    placeMarker,
   };
 }
 
@@ -52,4 +63,6 @@ function DisplayController() {
   const switchPlayer = () => {
     currentPlayer = currentPlayer === players[0] ? players[1] : players[0];
   };
+
+  const getCurrentPlayer = () => currentPlayer;
 }
