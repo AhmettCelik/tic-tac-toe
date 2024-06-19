@@ -6,26 +6,16 @@ function GameBoard() {
   for (let i = 0; i < rows; i++) {
     board[i] = [];
     for (let j = 0; j < columns; j++) {
-      board[j].push(Cell());
+      board[i].push(Cell());
     }
   }
-}
 
-const player = (function (
-  playerOneName = "player one",
-  playerTwoName = "player two"
-) {
-  const players = [
-    {
-      name: playerOneName,
-      marker: "X",
-    },
-    {
-      name: playerTwoName,
-      marker: "O",
-    },
-  ];
-})();
+  const getBoard = () => board;
+
+  return {
+    getBoard,
+  };
+}
 
 function Cell() {
   let marker = "";
@@ -39,5 +29,27 @@ function Cell() {
   return {
     addMarker,
     getMarker,
+  };
+}
+
+const Player = (name, marker) => {
+  return {
+    name,
+    marker,
+  };
+};
+
+function DisplayController() {
+  const board = GameBoard();
+
+  const players = [
+    (playerOne = Player("Player One", "X")),
+    (playerTwo = Player("Player Two", "O")),
+  ];
+
+  let currentPlayer = players[0];
+
+  const switchPlayer = () => {
+    currentPlayer = currentPlayer === players[0] ? players[1] : players[0];
   };
 }
