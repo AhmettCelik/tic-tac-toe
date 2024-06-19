@@ -22,9 +22,17 @@ function GameBoard() {
     board[rowInput][columnInput].addMarker(player);
   };
 
+  const printCurrentBoard = () => {
+    const currentBoard = board.map((row) =>
+      row.map((cell) => cell.getMarker())
+    );
+    console.log(currentBoard);
+  };
+
   return {
     getBoard,
     placeMarker,
+    printCurrentBoard,
   };
 }
 
