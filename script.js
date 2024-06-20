@@ -14,7 +14,7 @@ function GameBoard() {
 
   const placeMarker = (rowInput, columnInput, player) => {
     if (board[rowInput][columnInput].getMarker() != "") {
-      console.log("askdşlkgaşdg");
+      console.log("Cell already occupied");
       return;
     }
 
@@ -60,10 +60,7 @@ const Player = (name, marker) => {
 function DisplayController() {
   const board = GameBoard();
 
-  const players = [
-    (playerOne = Player("Player One", "X")),
-    (playerTwo = Player("Player Two", "O")),
-  ];
+  const players = [Player("Player One", "X"), Player("Player Two", "O")];
 
   let currentPlayer = players[0];
 
@@ -98,9 +95,41 @@ function DisplayController() {
   return {
     playRound,
     getCurrentPlayer,
+    getBoard: board.getBoard,
   };
 }
 
-const game = DisplayController();
+function ScreenController() {
+  const game = DisplayController();
 
-game.playRound(2, 2);
+  const boardContainer = document.getElementById("gameboard");
+
+  const updateScreen = () => {
+    boardContainer.textContent = "";
+    game.getBoard().forEach((row, rowIndex) => {
+      row.forEach((cell, colIndex) => {
+        const gridButton = document.createElement("button");
+        gridButton.dataset.column = colIndex;
+        gridButton.dataset.row = rowIndex;
+        gridButton.textContent = cell.getMarker();
+        boardContainer.appendChild(gridButton);
+      });
+    });
+  };
+
+  function handleBoardGridClick(e) {
+    const selectedPlaceRowIndex = parseInt(e.target.dataset.row);
+    const selectedPlaceColumnIndex = parseInt(e.target.dataset.column);
+
+    if (isNaN(selectedPlaceRowIndex) || isNaN(selectedPlaceColumnIndex)) return;
+
+    game.playRound(selectedPlaceColumnIndex, selectedPlaceRowIndex);
+    updateScreen();
+  }
+
+  boardContainer.addEventListener("click", handleBoardGridClick);
+
+  updateScreen();
+}
+
+ScreenController();
