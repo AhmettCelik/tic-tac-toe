@@ -50,6 +50,60 @@ function Cell() {
   };
 }
 
+function findWinner(board, player) {
+  const winConditions = [
+    // Rows
+    [
+      [0, 0],
+      [0, 1],
+      [0, 2],
+    ],
+    [
+      [1, 0],
+      [1, 1],
+      [1, 2],
+    ],
+    [
+      [2, 0],
+      [2, 1],
+      [2, 2],
+    ],
+    // Columns
+    [
+      [0, 0],
+      [1, 0],
+      [2, 0],
+    ],
+    [
+      [0, 1],
+      [1, 1],
+      [2, 1],
+    ],
+    [
+      [0, 2],
+      [1, 2],
+      [2, 2],
+    ],
+    // Diagonals
+    [
+      [0, 0],
+      [1, 1],
+      [2, 2],
+    ],
+    [
+      [0, 2],
+      [1, 1],
+      [2, 0],
+    ],
+  ];
+
+  return winConditions.some((condition) => {
+    return condition.every(([row, col]) => {
+      return board[row][col].getMarker() === player.marker;
+    });
+  });
+}
+
 const Player = (name, marker) => {
   return {
     name,
@@ -76,7 +130,6 @@ function DisplayController() {
   };
 
   const playRound = (column, row) => {
-    //Check the place if it is empty or not
     if (board.getBoard()[row][column].getMarker() != "") return;
     console.log(
       `Dropping ${
@@ -85,6 +138,11 @@ function DisplayController() {
     );
 
     board.placeMarker(row, column, getCurrentPlayer());
+
+    if (findWinner(board.getBoard(), getCurrentPlayer())) {
+      console.log(`${getCurrentPlayer().name} wins!`);
+      return;
+    }
 
     switchPlayer();
     printNewRound();
@@ -104,11 +162,14 @@ function ScreenController() {
 
   const boardContainer = document.getElementById("gameboard");
 
+  let value = 1;
+
   const updateScreen = () => {
     boardContainer.textContent = "";
     game.getBoard().forEach((row, rowIndex) => {
       row.forEach((cell, colIndex) => {
         const gridButton = document.createElement("button");
+        gridButton.value = value++;
         gridButton.dataset.column = colIndex;
         gridButton.dataset.row = rowIndex;
         gridButton.textContent = cell.getMarker();
