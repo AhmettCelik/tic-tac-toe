@@ -179,6 +179,9 @@ function ScreenController() {
   };
 
   function handleBoardGridClick(e) {
+    if (findWinner(game.getBoard(), game.getCurrentPlayer())) {
+      boardContainer.removeEventListener("click", handleBoardGridClick);
+    }
     const selectedPlaceRowIndex = parseInt(e.target.dataset.row);
     const selectedPlaceColumnIndex = parseInt(e.target.dataset.column);
 
