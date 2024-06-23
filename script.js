@@ -112,15 +112,20 @@ const Player = (name, marker) => {
 };
 
 function DisplayController() {
+  const playerOne = document.getElementById("player-one");
+  const playerTwo = document.getElementById("player-two");
+  const gameMenu = document.getElementById("game-menu");
+  const winnerP = document.getElementById("winner-paragraph");
+
   const board = GameBoard();
-
-  const players = [Player("Player One", "X"), Player("Player Two", "O")];
-
-  let currentPlayer = players[0];
 
   const switchPlayer = () => {
     currentPlayer = currentPlayer === players[0] ? players[1] : players[0];
   };
+
+  const players = [Player(playerOne.value, "X"), Player(playerTwo.value, "O")];
+
+  let currentPlayer = players[0];
 
   const getCurrentPlayer = () => currentPlayer;
 
@@ -140,6 +145,7 @@ function DisplayController() {
     board.placeMarker(row, column, getCurrentPlayer());
 
     if (findWinner(board.getBoard(), getCurrentPlayer())) {
+      winnerP.textContent = `${getCurrentPlayer().name} wins!`;
       console.log(`${getCurrentPlayer().name} wins!`);
       return;
     }
@@ -154,17 +160,11 @@ function DisplayController() {
     playRound,
     getCurrentPlayer,
     getBoard: board.getBoard,
+    gameMenu,
   };
 }
 
 function ScreenController() {
-  const gameMenu = document.getElementById("game-menu");
-  const startGameButton = document.getElementById("start-button");
-  const submitMenu = document.getElementById("submit-menu");
-  const playerNames = document.querySelectorAll(
-    "#game-menu input[type='text']"
-  );
-
   const game = DisplayController();
   const boardContainer = document.getElementById("gameboard");
 
@@ -176,7 +176,6 @@ function ScreenController() {
         gridButton.dataset.column = colIndex;
         gridButton.dataset.row = rowIndex;
         gridButton.textContent = cell.getMarker();
-        gridButton.style.pointerEvents = "none";
         boardContainer.appendChild(gridButton);
       });
     });
@@ -198,15 +197,19 @@ function ScreenController() {
 
   boardContainer.addEventListener("click", handleBoardGridClick);
 
-  startGameButton.addEventListener("click", () => {
-    gameMenu.showModal();
-  });
-
-  submitMenu.addEventListener("click", () => {
-    gameMenu.close();
-  });
-
   updateScreen();
+  game.gameMenu.close();
 }
 
-ScreenController();
+function GameStarter() {
+  const startGameButton = document.getElementById("start-button");
+  const submitMenu = document.getElementById("submit-menu");
+
+  startGameButton.addEventListener("click", () => {
+    DisplayController().gameMenu.showModal();
+  });
+
+  submitMenu.addEventListener("click", ScreenController);
+}
+
+GameStarter();

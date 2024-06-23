@@ -120,3 +120,10 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
+
+#winner-paragraph {
+  position: absolute;
+  bottom: 6rem;
+  font-size: 3.5rem;
+  color: var(--white);
+}
