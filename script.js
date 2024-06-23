@@ -158,18 +158,21 @@ function DisplayController() {
 }
 
 function ScreenController() {
+  const gameMenu = document.getElementById("game-menu");
+  const startGameButton = document.getElementById("start-button");
+  const submitMenu = document.getElementById("submit-menu");
+  const playerNames = document.querySelectorAll(
+    "#game-menu input[type='text']"
+  );
+
   const game = DisplayController();
-
   const boardContainer = document.getElementById("gameboard");
-
-  let value = 1;
 
   const updateScreen = () => {
     boardContainer.textContent = "";
     game.getBoard().forEach((row, rowIndex) => {
       row.forEach((cell, colIndex) => {
         const gridButton = document.createElement("button");
-        gridButton.value = value++;
         gridButton.dataset.column = colIndex;
         gridButton.dataset.row = rowIndex;
         gridButton.textContent = cell.getMarker();
@@ -194,6 +197,14 @@ function ScreenController() {
   }
 
   boardContainer.addEventListener("click", handleBoardGridClick);
+
+  startGameButton.addEventListener("click", () => {
+    gameMenu.showModal();
+  });
+
+  submitMenu.addEventListener("click", () => {
+    gameMenu.close();
+  });
 
   updateScreen();
 }
