@@ -173,6 +173,7 @@ function ScreenController() {
         gridButton.dataset.column = colIndex;
         gridButton.dataset.row = rowIndex;
         gridButton.textContent = cell.getMarker();
+        gridButton.style.pointerEvents = "none";
         boardContainer.appendChild(gridButton);
       });
     });
@@ -181,6 +182,7 @@ function ScreenController() {
   function handleBoardGridClick(e) {
     if (findWinner(game.getBoard(), game.getCurrentPlayer())) {
       boardContainer.removeEventListener("click", handleBoardGridClick);
+      return;
     }
     const selectedPlaceRowIndex = parseInt(e.target.dataset.row);
     const selectedPlaceColumnIndex = parseInt(e.target.dataset.column);

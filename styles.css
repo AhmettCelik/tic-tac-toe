@@ -1,6 +1,38 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 .board {
   display: grid;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
-  height: 100vh;
-  width: 100%;
+  height: 500px;
+  width: 500px;
+}
+
+.board button:nth-child(-n + 3) {
+  border-top: none;
+}
+
+.board button:nth-child(3n + 1) {
+  border-left: none;
+}
+
+.board button:nth-child(3n) {
+  border-right: none;
+}
+
+.board button:nth-last-child(-n + 3) {
+  border-bottom: none;
+}
+
+.board button:nth-child(5) {
+  border-width: 2px;
+}
+
+.board button {
+  background-color: #fff;
+  cursor: pointer;
 }
